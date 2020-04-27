@@ -1,11 +1,11 @@
 // from data.js
 var tableData = data;
 // console.log(tableData);
-var tHead = d3.select("thead");
+var tBody = d3.select("tbody");
 
 // YOUR CODE HERE!
 tableData.forEach(alienReport => {
-    row = d3.select("tHead").append("tr");
+    row = d3.select("tBody").append("tr");
     Object.entries(alienReport).forEach(([key,value]) =>{
         cell = row.append("td").text(value);
 
@@ -73,33 +73,54 @@ function runEnter(event) {
 
     var inputCountryValue = inputCountryElement.property("value");
 
-    var inputShapeElement = d3.select("option");
+    var inputShapeElement = d3.select("#Shapes");
 
-    var shapeValue = inputShapeElement.property("value");
+    var inputShapeValue = inputShapeElement.property("value");
 
-    if (shapeValue === shapesUnique){
-        console.log(shapeValue);
-    }
-    else {
-        console.log("Shape not found!")
-    }
-      
-    // tHead.html("");
-    // var data = tableData.filter(alienReport => {
-    //     alienReport.datetime === inputDateValue ||
-    //     alienReport.city === inputCityValue ||
-    //     alienReport.state === inputStateValue ||
-    //     alienReport.country === inputCountryValue ||
-    //     alienReport.shape === inputShapeValue 
-    // });
+    // console.log(inputShapeValue);
+     
+    tBody.html("");
+
+   
+    var filters = {"date":inputDateValue,"city":inputCityValue,"state":inputStateValue,"country":inputCountryValue,"shape":inputShapeValue};
+  
+    // var filtersFiltered = filters.filter(item => item.value !== Null );
     
-    // console.log(data);
 
-    // data.forEach(report => {
-    //     row = d3.select("tHead").append("tr");
-    //     Object.entries(report).forEach(([key,value]) => {
-    //         cell = row.append("td").text(value);
-    //     });
-    // });
+    
+    
+    
+    // if all the inputs have values for filtering 
+    var data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
+                        .filter(alienReport => alienReport.city === inputCityValue.toLowerCase())
+                        .filter(alienReport => alienReport.state === inputStateValue.toLowerCase())
+                        .filter(alienReport => alienReport.country === inputCountryValue.toLowerCase())
+                        .filter(alienReport => alienReport.shape === inputShapeValue.toLowerCase());
 
+ 
+    // if (inputDateValue !== ""){
+    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue);
+    // } 
+    // if (inputDateValue === ""){    
+    //     data = tableData.filter(alienReport => alienReport.city === inputCityValue.toLowerCase());
+    // }
+    // else if (inputCityValue !== ""){
+
+    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
+    //                     .filter(alienReport => alienReport.city === inputCityValue.toLowerCase());
+    // }
+
+    // if (inputStateValue !== ""){
+    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
+    //                     .filter(alienReport => alienReport.city === inputCityValue.toLowerCase())
+    //                     .filter(alienReport => alienReport.state === inputStateValue.toLowerCase());
+    // }
+   
+    
+    data.forEach(report => {
+        row = d3.select("tBody").append("tr");
+        Object.entries(report).forEach(([key,value]) => {
+            cell = row.append("td").text(value);
+        });
+    });          
 }
