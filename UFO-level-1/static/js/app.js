@@ -1,11 +1,11 @@
 // from data.js
 var tableData = data;
 // console.log(tableData);
-var tHead = d3.select("thead");
+var tBody = d3.select("tbody");
 
 // YOUR CODE HERE!
 tableData.forEach(alienReport => {
-    row = d3.select("tHead").append("tr");
+    row = d3.select("tBody").append("tr");
     Object.entries(alienReport).forEach(([key,value]) =>{
         cell = row.append("td").text(value);
 
@@ -29,13 +29,13 @@ function runEnter(event) {
 
     // console.log(inputValue);
       
-    tHead.html("");
+    tBody.html("");
     var data = tableData.filter(alienReport => alienReport.datetime === inputValue);
     
     console.log(data);
 
     data.forEach(report => {
-        row = d3.select("tHead").append("tr");
+        row = d3.select("tBody").append("tr");
         Object.entries(report).forEach(([key,value]) => {
             cell = row.append("td").text(value);
         });
