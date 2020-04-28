@@ -33,7 +33,7 @@ Object.entries(filterGroup).forEach(([key,value])=> {
     ul.append("input").attr("class","form-control").attr("id",key).attr("type","text").attr("placeholder",value);
 });
 
-// https://website.education.wisc.edu/~swu28/d3t/concept.html
+// // https://website.education.wisc.edu/~swu28/d3t/concept.html
 
 // d3.select("[for=Shape]").text("Select a Shape");
 
@@ -117,64 +117,17 @@ function runEnter(event) {
 
     console.log(filters);
    
+
+
+    // https://stackoverflow.com/questions/31831651/javascript-filter-array-multiple-conditions/31831801(with 19 upvotes)
+
+    var data = tableData.filter(search, filters);
+
+    function search(alienReport){
+    return Object.keys(this).every((key) => alienReport[key] === this[key]);
+    }
         
-    // Object.entries(filters).forEach(([key,value]) => {
-    //     data = tableData.filter(row => row[key] === value);
-    // })
     
-    
-    
-    if (inputDateValue){
-        data = tableData.filter(alienReport => alienReport.datetime === inputDateValue);
-    } 
-
-    if (inputCityValue){
-        data = tableData.filter(alienReport => alienReport.city === inputCityValue);
-    } 
-
-    if (inputStateValue){
-        data = tableData.filter(alienReport => alienReport.state === inputStateValue);
-    } 
-
-    if (inputCountryValue){
-        data = tableData.filter(alienReport => alienReport.country === inputCountryValue);
-    } 
-
-    if (inputShapeValue){
-        data = tableData.filter(alienReport => alienReport.shape === inputShapeValue);
-    } 
-
-    if (inputDateValue && inputStateValue){
-        data = tableData.filter(alienReport => alienReport.datetime === inputDateValue && alienReport.state === inputStateValue);
-    } 
-
-    if (inputCityValue && inputDateValue){
-        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue);
-    } 
-
-    if (inputShapeValue && inputDateValue){
-        data = tableData.filter(alienReport => alienReport.shape === inputShapeValue && alienReport.datetime === inputDateValue);
-    } 
-
-    if (inputCityValue && inputDateValue && inputStateValue){
-        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
-                                alienReport.state === inputStateValue);
-    } 
-
-    if (inputCityValue && inputDateValue && inputStateValue && inputCountryValue){
-        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
-                                alienReport.state === inputStateValue && alienReport.country === inputCountryValue);
-    } 
-
-    if (inputCityValue && inputDateValue && inputStateValue && inputCountryValue && inputShapeValue){
-        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
-                                alienReport.state === inputStateValue && alienReport.country === inputCountryValue && 
-                                alienReport.shape === inputShapeValue );
-    } 
-   
-    
-    
-
 
     console.log(data);
     data.forEach(report => {
