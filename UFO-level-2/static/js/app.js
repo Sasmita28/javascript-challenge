@@ -23,36 +23,39 @@ button.on("click",runEnter);
 
 var ul = d3.select("ul").html("");
 
-var filterGroup = {'Date':'1/11/2011','City':'roswell','State':'ca','Country':'us','Shape':'circle'};
+var filterGroup = {'Date':'1/11/2011','City':'roswell','State':'ca','Country':'us','Shape':'Circle'};
 
 Object.entries(filterGroup).forEach(([key,value])=> {
 
     ul.append("label").attr("for",key).text(`Enter a ${key}`);
-    
+
+  
     ul.append("input").attr("class","form-control").attr("id",key).attr("type","text").attr("placeholder",value);
 });
 
 // https://website.education.wisc.edu/~swu28/d3t/concept.html
 
-d3.select("[for=Shape]").text("Select a Shape");
+// d3.select("[for=Shape]").text("Select a Shape");
 
-var shapes = tableData.map(alienReport => alienReport.shape);
+// var shapes = tableData.map(alienReport => alienReport.shape);
 
-// https://wsvincent.com/javascript-remove-duplicates-array/
-var shapesUnique = [...new Set(shapes)];
-
-
-d3.select("#Shape").remove();
-
-d3.select("[for=Shape]").append("select");
-d3.select('select').attr("id","Shapes").attr("name","Shapes");
-
-// https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_option_value
-shapesUnique.forEach(shape => {
-    d3.select('select').append("option").attr("value",shape).text(shape);
-});
+// // https://wsvincent.com/javascript-remove-duplicates-array/
+// var shapesUnique = [...new Set(shapes)];
 
 
+// d3.select("#Shape").remove();
+
+// d3.select("[for=Shape]").append("select");
+// d3.select('select').attr("id","Shapes").attr("name","Shapes");
+
+// // https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_option_value
+// shapesUnique.forEach(shape => {
+//     d3.select('select').append("option").attr("value",shape).text(shape);
+// });
+
+
+
+var filters = {}
 function runEnter(event) {
 
     d3.event.preventDefault();
@@ -73,7 +76,7 @@ function runEnter(event) {
 
     var inputCountryValue = inputCountryElement.property("value");
 
-    var inputShapeElement = d3.select("#Shapes");
+    var inputShapeElement = d3.select("#Shape");
 
     var inputShapeValue = inputShapeElement.property("value");
 
@@ -81,46 +84,105 @@ function runEnter(event) {
      
     tBody.html("");
 
+    if (inputDateValue) {
+        filters["datetime"]= inputDateValue;
+    }
+    else {
+        delete filters["datetime"];
+    }
+    if (inputCityValue) {
+        filters["city"]= inputCityValue;
+    }
+    else {
+        delete filters["city"];
+    }
+    if (inputStateValue) {
+        filters["state"]= inputStateValue;
+    }
+    else {
+        delete filters["state"];
+    }
+    if (inputCountryValue) {
+        filters["country"]= inputCountryValue;
+    }
+    else {
+        delete filters["country"];
+    }
+    if (inputShapeValue) {
+        filters["shape"]= inputShapeValue;
+    }
+    else {
+        delete filters["shape"];
+    }
+
+    console.log(filters);
    
-    var filters = {"date":inputDateValue,"city":inputCityValue,"state":inputStateValue,"country":inputCountryValue,"shape":inputShapeValue};
-  
-    // var filtersFiltered = filters.filter(item => item.value !== Null );
-    
-
-    
+        
+    // Object.entries(filters).forEach(([key,value]) => {
+    //     data = tableData.filter(row => row[key] === value);
+    // })
     
     
-    // if all the inputs have values for filtering 
-    var data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
-                        .filter(alienReport => alienReport.city === inputCityValue.toLowerCase())
-                        .filter(alienReport => alienReport.state === inputStateValue.toLowerCase())
-                        .filter(alienReport => alienReport.country === inputCountryValue.toLowerCase())
-                        .filter(alienReport => alienReport.shape === inputShapeValue.toLowerCase());
+    
+    if (inputDateValue){
+        data = tableData.filter(alienReport => alienReport.datetime === inputDateValue);
+    } 
 
- 
-    // if (inputDateValue !== ""){
-    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue);
-    // } 
-    // if (inputDateValue === ""){    
-    //     data = tableData.filter(alienReport => alienReport.city === inputCityValue.toLowerCase());
-    // }
-    // else if (inputCityValue !== ""){
+    if (inputCityValue){
+        data = tableData.filter(alienReport => alienReport.city === inputCityValue);
+    } 
 
-    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
-    //                     .filter(alienReport => alienReport.city === inputCityValue.toLowerCase());
-    // }
+    if (inputStateValue){
+        data = tableData.filter(alienReport => alienReport.state === inputStateValue);
+    } 
 
-    // if (inputStateValue !== ""){
-    //     data = tableData.filter(alienReport => alienReport.datetime === inputDateValue)
-    //                     .filter(alienReport => alienReport.city === inputCityValue.toLowerCase())
-    //                     .filter(alienReport => alienReport.state === inputStateValue.toLowerCase());
-    // }
+    if (inputCountryValue){
+        data = tableData.filter(alienReport => alienReport.country === inputCountryValue);
+    } 
+
+    if (inputShapeValue){
+        data = tableData.filter(alienReport => alienReport.shape === inputShapeValue);
+    } 
+
+    if (inputDateValue && inputStateValue){
+        data = tableData.filter(alienReport => alienReport.datetime === inputDateValue && alienReport.state === inputStateValue);
+    } 
+
+    if (inputCityValue && inputDateValue){
+        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue);
+    } 
+
+    if (inputShapeValue && inputDateValue){
+        data = tableData.filter(alienReport => alienReport.shape === inputShapeValue && alienReport.datetime === inputDateValue);
+    } 
+
+    if (inputCityValue && inputDateValue && inputStateValue){
+        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
+                                alienReport.state === inputStateValue);
+    } 
+
+    if (inputCityValue && inputDateValue && inputStateValue && inputCountryValue){
+        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
+                                alienReport.state === inputStateValue && alienReport.country === inputCountryValue);
+    } 
+
+    if (inputCityValue && inputDateValue && inputStateValue && inputCountryValue && inputShapeValue){
+        data = tableData.filter(alienReport => alienReport.city === inputCityValue && alienReport.datetime === inputDateValue && 
+                                alienReport.state === inputStateValue && alienReport.country === inputCountryValue && 
+                                alienReport.shape === inputShapeValue );
+    } 
    
     
+    
+
+
+    console.log(data);
     data.forEach(report => {
         row = d3.select("tBody").append("tr");
         Object.entries(report).forEach(([key,value]) => {
             cell = row.append("td").text(value);
         });
-    });          
+    }); 
+        
 }
+
