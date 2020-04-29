@@ -13,6 +13,7 @@ tableData.forEach(alienReport => {
     });
 });
 
+
 var form = d3.select("form");
 
 var button = d3.select("button");

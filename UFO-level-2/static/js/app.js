@@ -16,6 +16,7 @@ tableData.forEach(alienReport => {
 });
 
 
+
 // selecting the button for future use
 var button = d3.select("button");
 
